@@ -1,51 +1,68 @@
-def query_items(items_list):
-    import pyodbc
-    from pandas import DataFrame
 
-    conn = pyodbc.connect(r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=C:\Users\jelvig\Desktop\Poseidon_Test.accdb;')
-    cursor = conn.cursor()
+def query_items(items_list:list):
+  import pyodbc
+  import pandas as pd
 
-    #current query used to find raw data: work in progress
-    placeholder = '?'
-    placeholder = ', '.join(placeholder for unused in items_list)
+  conn = pyodbc.connect(r'Driver={Microsoft Access Driver (*.mdb, *.accdb)};DBQ=C:\Users\jelvig\Desktop\Poseidon_Test.accdb;')
+  cursor = conn.cursor()
 
-    data = """
-    SELECT qy_oligos_containers.[Item No_], qy_oligos_containers.[Lot No_], qy_oligos_containers.[Bin Code], '' AS toBinCode, qy_oligos_containers.lotQty AS Qty, 'UL' AS UOMC, qy_oligos_containers.type
-    FROM ((qy_oligos_containers INNER JOIN [dbo_NanoString$Bin Content] ON qy_oligos_containers.[Bin Code] = [dbo_NanoString$Bin Content].[Bin Code]) INNER JOIN qy_rack_contents ON qy_oligos_containers.shelfCode = qy_rack_contents.shelfCode) INNER JOIN [dbo_NanoString$Item] ON [dbo_NanoString$Bin Content].[Item No_] = [dbo_NanoString$Item].No_
-    WHERE qy_oligos_containers.type=2 AND (qy_oligos_containers.[Item No_] IN (%s))
-    ORDER BY qy_oligos_containers.[Lot No_];""" % placeholder
+  #current query used to find raw data: work in progress
+  placeholder = '?'
+  placeholder = ', '.join(placeholder for unused in items_list)
 
-    cursor.execute(data, items_list)
-    items = cursor.fetchall()
-    df = DataFrame(items, columns=['Item', 'Lot', 'Bin code', 'Qty', 'UL'])
-    
-    
-    return df
+  data = """
+  SELECT qy_oligos_containers.[Item No_], qy_oligos_containers.[Lot No_], qy_oligos_containers.[Bin Code], '' AS toBinCode, qy_oligos_containers.lotQty AS Qty, 'UL' AS UOMC, qy_oligos_containers.type
+  FROM ((qy_oligos_containers INNER JOIN [dbo_NanoString$Bin Content] ON qy_oligos_containers.[Bin Code] = [dbo_NanoString$Bin Content].[Bin Code]) INNER JOIN qy_rack_contents ON qy_oligos_containers.shelfCode = qy_rack_contents.shelfCode) INNER JOIN [dbo_NanoString$Item] ON [dbo_NanoString$Bin Content].[Item No_] = [dbo_NanoString$Item].No_
+  WHERE (qy_oligos_containers.[Item No_] IN (%s))
+  ORDER BY qy_oligos_containers.[Lot No_];""" % placeholder
 
-def csv_write(data_list):
-    from pandas import DataFrame
+  cursor.execute(data, items_list)
+  items = cursor.fetchall()
+  df = pd.DataFrame(items, columns=['Item', 'Lot', 'Bin code', 'Qty', 'UL'])
+  return df
 
-    df = df.drop_duplicates(subset=['Item'], keep='first')
-    df.sort_values(by=['Bin code'])
-    df.insert(3, ) # insert column to be serialized with bin code input
+def sort_write(df):
+  df.drop_duplicates(subset=['Item'], keep='first')
+  df.sort_values(by=['Bin code'])
+  bin_codes = get_bins(df)
+  upload = df.insert(loc=3,column="tobincode", values=serialize(df, bin_codes))
+  return upload
+
+def get_bins(df):
+  from math import ceil
+  rows = len(df.index)
+  bin_count = ceil(rows/96)
+  bincodes = []
+  i=0
+  while i <= bin_count:
+    bin_code = input(f"Enter bin code {i}/{bin_count}:")
+    if len(bin_code) == 8:
+      bincodes.append(bin_code) 
+      i += 1
+    else:
+      print("This is an invalid bin code, try again")
+  return bincodes
 
 def file_list():
     from tkinter import filedialog
     from pandas import read_csv
 
     file = filedialog.askopenfilename(title="Choose master file", initialdir=r'W:\Production\Probe Oligos\REMP Files\_Re-Rack Files')
-    items_df = read_csv(file, header=None, index_col=None)
-    items_list = items_df[1].tolist()
-    return items_list
+    item_df = read_csv(file, header=None, index_col=None)
+    item_list = item_df[1].tolist()
+    return item_list
+
+def serialize(outfile, bin_codes):
+  letters = ['A','B','C','D','E','F','G','H']
+  i=0
+  while i <= len(outfile.index):
+    for bin_code in bin_codes:  
+      for num in range(13):
+        for let in letters:
+          return f"{bin_code}-{let}{num}"
 
 def main():
-    item_list = file_list()
-    data_list = list(map(lambda x: query_items(x), item_list))
-    csv_write(data_list)
-        
-# if "__name__" == main():
-#     main()
-query_items()
-
-"""New plan, query for all RP probes into a dataframe,
- then search dataframe for items and return the row. this would be much faster"""
+  item_list = file_list()
+  df = query_items(item_list)
+  upload = sort_write(df)
+  upload.to_csv('location', index=False, header = False)
