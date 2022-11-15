@@ -36,7 +36,7 @@ def get_bins(df):
   i=0
   while i <= bin_count:
     bin_code = input(f"Enter bin code {i}/{bin_count}:")
-    if len(bin_code) == 8:
+    if len(bin_code) == 9:
       bincodes.append(bin_code) 
       i += 1
     else:
