@@ -15,4 +15,4 @@ class Bins():
     
   @classmethod 
   def get_bins(cls):
-    return [x for x in Bin.bin_entries]
+    return [x for x in cls.bin_entries]
