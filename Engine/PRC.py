@@ -32,7 +32,7 @@ class PRC(Bins, Working_folder, Extract):
     def sort_write(df):
         df.drop_duplicates(subset=['Item'], keep='first')
         df.sort_values(by=['Bin code'])
-        bin_codes = get_bins(df)
+        #bin_codes = get_bins(df) changed to a class to be used
         upload = df.insert(loc=3,column="tobincode", values=serialize(df, bin_codes))
         return upload
 
