@@ -3,4 +3,5 @@ from Engine import Operator
 
 def PRC():
   prc = Operator()
-  prc.interface
+  file_loc, files = prc.file_list()
+  
