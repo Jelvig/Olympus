@@ -10,7 +10,9 @@ class Operator(Bins, Working_folder, Extract, Query, Interface):
         self.files = files
        
 
-    def sort_write(df):
+    def sort_write(file):
+        import pandas as pd
+        df = pd.read_csv(file, header=None)
         df.drop_duplicates(subset=['Item'], keep='first')
         df.sort_values(by=['Bin code'])
         bins = Bins(df)
