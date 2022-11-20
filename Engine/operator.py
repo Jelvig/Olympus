@@ -11,7 +11,10 @@ class Operator(Bins, Working_folder, Extract, Query, Interface):
     
     def get_items(file)
         import pandas as pd
-        df = pd.read_csv(file, header=None)
+        df = pd.read_csv(file, usecols=[1], header=None, index_col=None)
+        item_list = df.values.tolist()
+        query = Query()
+        df = query.
 
     def sort_write(df):
         df.drop_duplicates(subset=['Item'], keep='first')
