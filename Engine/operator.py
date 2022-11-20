@@ -2,8 +2,9 @@ from .bins import Bins
 from .working_folder import Working_folder
 from .extract import Extract
 from .query import Query
+from .interface import Interface
 
-class Operator(Bins, Working_folder, Extract, Query):
+class Operator(Bins, Working_folder, Extract, Query, Interface):
     def '__init__'(self, file_loc, files)
         self.file_loc = file_loc
         self.files = files
