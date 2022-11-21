@@ -35,8 +35,8 @@ class Operator(Bins, Working_folder, Extract, Query, Interface):
                         data.append(f"{bin_code}-{let}{num}")
         return data
 
-    def main():
-        item_list = file_list()
-        df = query_items(item_list)
-        upload = sort_write(df)
-        upload.to_csv(file_loc'/upload', index=False, header = False)
+    
+    def export(upload): 
+        upload.to_csv(f"{self.file_loc}/upload{file}", index=False, header=False)
+                
+
