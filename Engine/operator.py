@@ -5,9 +5,8 @@ from .query import Query
 from .interface import Interface
 
 class Operator(Bins, Working_folder, Extract, Query, Interface):
-    def '__init__'(self, file_loc, files)
+    def '__init__'(self, file_loc)
         self.file_loc = file_loc
-        self.files = files
     
     def get_items(file):
         import pandas as pd
