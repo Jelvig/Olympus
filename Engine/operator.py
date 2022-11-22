@@ -3,8 +3,8 @@ from .working_folder import Working_folder
 from .extract import Extract
 from .query import Query
 from .interface import Interface
-
-class Operator(Bins, Working_folder, Extract, Query, Interface):
+from .lot import Lot
+class Operator(Bins, Working_folder, Extract, Query, Interface, Lot):
     
     def get_items(file) -> Dataframe:
         import pandas as pd
