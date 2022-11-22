@@ -5,8 +5,6 @@ from .query import Query
 from .interface import Interface
 
 class Operator(Bins, Working_folder, Extract, Query, Interface):
-    def '__init__'(self, file_loc)
-        self.file_loc = file_loc
     
     def get_items(file) -> Dataframe:
         import pandas as pd
@@ -37,7 +35,7 @@ class Operator(Bins, Working_folder, Extract, Query, Interface):
         return data
 
     
-    def export(upload): 
-        upload.to_csv(f"{self.file_loc}/upload{file}", index=False, header=False)
+    def export(upload, file_loc, file): 
+        upload.to_csv(f"{file_loc}/upload{file}", index=False, header=False)
                 
 
