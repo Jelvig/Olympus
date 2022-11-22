@@ -45,5 +45,9 @@ class Operator(Bins, Working_folder, Extract, Query, Interface, Lot):
         
     def export(upload, file_loc, file): 
         upload.to_csv(f"{file_loc}/upload{file}", index=False, header=False)
+        
+   def lowvsorder(low_df, order_list):
+        items = low_df[0].values.tolist()
+        drop_items = List(map(Lambda x: x if x in order_list, items))
                 
 
