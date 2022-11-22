@@ -1,9 +1,26 @@
 from Engine import interface
-from Engine import Operator
+from Engine import operator
+from Engine import working_folder
+from Engine import lot
 
 def PRC():
+  import pandas as pd
   prc = Operator()
   file_loc, files = prc.file_list()
   for file in files:
-    prc.extract()
+    item_list = prc.get_item(file)
+    upload = prc.sort_write(item_list)
+    prc.export(upload, file_loc, file)
+  
+def LVR():
+  import pandas as pd
+  
+  lvr = Operator()
+  file_loc, files = lvr.file_list()
+  if len(files) > 1:
+    order_list = lvr.combine(files)
+  else:
+    order_list = pd.read_csv(files, usecols=[1], header=None, index_col=None).values.tolist()
+  lot_list = lvr.lot_commit()
+  vol_df = lvr.lowvol_query(lot_list=lot_list)
   
