@@ -20,7 +20,7 @@ def LVR():
   if len(files) > 1:
     order_list = lvr.combine(files)
   else:
-    order_list = pd.read_csv(files, usecols=[1], header=None, index_col=None).values.tolist()
+    order_list = pd.read_csv(files, usecols=[1,2], header=None, index_col=None).values.tolist()
   lot_list = lvr.lot_commit()
   vol_df = lvr.lowvol_query(lot_list=lot_list)
   
