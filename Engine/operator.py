@@ -34,7 +34,15 @@ class Operator(Bins, Working_folder, Extract, Query, Interface):
                         i+=1
         return data
 
-    
+    def combine(files):
+        import pandas as pd
+        df_list = []
+        for file in files:
+            df = pd.read_csv(file, usecols=[1], header=None, index_col=None)
+            df_list.append(df)
+        df = pd.concatf(df_list, axis=0, ignore_index=True)
+        return df.values.tolist()
+        
     def export(upload, file_loc, file): 
         upload.to_csv(f"{file_loc}/upload{file}", index=False, header=False)
                 
