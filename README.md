@@ -39,7 +39,7 @@ To get a local copy up and running follow these simple steps.
 
 1. Clone this repo.
    ```sh
-   git clone https://github.com/moon0440/meme-generator.git
+   git clone https://github.com/Jelvig/meme-generator.git (not active)
    ```
 2. Setup [virtual env](virtual-env-docs) inside project folder and activate.
    ```sh
@@ -91,4 +91,7 @@ Once started(using the default port) go to http://127.0.0.1:5000/
 _For more information on this process checkout [Flasks Development Server Documentation](flask-dev-server-docs)_.
 
 ## Modules
-_For descriptions of roles and responsibilities of modules see [API Documentation](https://moon0440.github.io/meme-generator/)_
+* pandas
+* flask
+* requests
+* python-docx
