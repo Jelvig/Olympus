@@ -62,4 +62,4 @@ class Operator(Bins, Working_folder, Query, Interface, Lot):
                 continue
             else:
                 drop_list.append(item)
-        
+        return drop_list
