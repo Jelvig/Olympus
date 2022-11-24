@@ -40,7 +40,7 @@ class Operator(Bins, Working_folder, Query, Interface, Lot):
         for file in files:
             df = pd.read_csv(file, usecols=[1], header=None, index_col=None)
             df_list.append(df)
-        df = pd.concatf(df_list, axis=0, ignore_index=True)
+        df = pd.concatf(df_list, axis=0, ignore_index=True).drop_duplicates().reset_index(drop=True)
         return df.values.tolist()
         
     def export(upload, file_loc, file): 
