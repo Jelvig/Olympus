@@ -1,14 +1,11 @@
 class Bins():
-    def __init__(self, df):
-        self.df = df
-
-    def bin_commit(self):
+    def bin_commit(self, df):
         import tkinter as tk
         from math import ceil
         root=tk.Tk()
         textBox=tk.Text(root, height=10, width=20)
         textBox.pack()
-        label = tk.Label(root, text=f'Enter {ceil(self.df/96)} Bins').pack()
+        label = tk.Label(root, text=f'Enter {ceil(df.index/96)} Bins').pack()
         buttonCommit=tk.Button(root, height=1, width=10, text="Commit", 
                             command=lambda: retrieve_input(textBox, root))
         buttonCommit.pack()
@@ -16,9 +13,9 @@ class Bins():
         res = check_values(inputValue)
         return res
 
-    def check_values(inputValue):
+    def check_values(inputValue, df):
         from math import ceil
-        if len(inputValue) == ceil(self.df.index):
+        if len(inputValue) >= ceil(df.index/96):
             if all(len(bin) == 9 for bin in inputValue):
                 return inputValue
             else:
