@@ -21,17 +21,18 @@ class Operator(Bins, Working_folder, Query, Interface, Lot):
         upload = df.insert(loc=3,column="tobincode", values=serialize(df, bin_codes))
         return upload
 
-    def serialize(df:Dataframe, bin_codes:List[str]) -> List[str]:
-        letters = ['A','B','C','D','E','F','G','H']
-        data = []
-        i=0
-        while i <= len(df.index):
-            for bin_code in bin_codes:  
-                for num in range(13):
-                    for let in letters:
-                        data.append(f"{bin_code}-{let}{num}")
-                        i+=1
-        return data
+    def serialize(df, bin_codes):
+    """df.index also needs to be added to this function to work in production"""
+    letters = ['A','B','C','D','E','F','G','H']
+    data = []
+    i=0
+    while i <= df:
+        for bin_code in bin_codes:  
+            for num in range(1,13):
+                for let in letters:
+                    data.append(f"{bin_code}-{let}{num}")
+                    i+=1
+    return data
 
     def combine(files):
         import pandas as pd
