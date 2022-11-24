@@ -43,7 +43,7 @@ class Operator(Bins, Working_folder, Query, Interface, Lot):
         df = pd.concatf(df_list, axis=0, ignore_index=True).drop_duplicates().reset_index(drop=True)
         return df.values.tolist()
         
-    def export(upload, file_loc, file): 
+    def export(upload, file_loc, file=None): 
         upload.to_csv(f"{file_loc}/upload{file}", index=False, header=False)
         
    def lowvsorder(low_df, order_list):
