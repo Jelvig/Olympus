@@ -50,4 +50,16 @@ class Operator(Bins, Working_folder, Query, Interface, Lot):
         items = low_df[0].values.tolist()
         drop_items = List(map(Lambda x: x if x in order_list, items))
                 
-
+    def upcoming_orders(order_list, vol_df):
+        import pandas as pd
+        query = Query()
+        item_list = vol_df["Item"].values.tolist()
+        overlap = [item for item in item_list if item in order_list]
+        drop_list = []
+        for item in overlap:
+            res = query.altlot_query(item)
+            if len(res) > 1:
+                continue
+            else:
+                drop_list.append(item)
+        
