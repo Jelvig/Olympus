@@ -13,7 +13,12 @@ class Lots():
         res = check_values(inputValue)
         return res
 
-
+    def check_values(self, inputValue):
+        if all(len(lot) == 9 for lot in inputValue):
+            return inputValue
+        else:
+            print(f"{lot if len(lot) != 9 for lot in inputValue} lacks enough characters")
+            
 def retrieve_input(textBox, root):
     """ add in a check to make sure the list is the correct length of bins,
     and then check to make sure the bins are accurate, or call bin commit again."""
