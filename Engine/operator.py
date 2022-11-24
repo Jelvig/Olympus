@@ -17,7 +17,7 @@ class Operator(Bins, Working_folder, Query, Interface, Lot):
         df.drop_duplicates(subset=['Item'], keep='first')
         df.sort_values(by=['Bin code'])
         bins = Bins()
-        bin_codes = bins.bin.commit(df)
+        bin_codes = bins.bin_commit(df)
         upload = df.insert(loc=3,column="tobincode", values=serialize(df, bin_codes))
         return upload
 
