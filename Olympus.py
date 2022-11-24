@@ -26,3 +26,11 @@ def LVR():
   tmp_df = vol_df[vol_df['Item'] is in drop_list].index
   upload = vol_df.drop(tmp_df, inplace=True)
   lvr.export(upload, file_loc, file=1)
+
+  def main():
+    wind = Interface(PRC(), LVR())
+    wind.window()
+ 
+
+    if '__name__' == '__main__':
+      main()
