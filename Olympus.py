@@ -6,10 +6,10 @@ from Engine import lot
 def PRC():
   import pandas as pd
   prc = Operator()
-  file_loc, files = prc.file_list()
+  file_loc, files = prc.file_list()  #Get the files and location of the working folders
   for file in files:
-    item_list = prc.get_item(file)
-    upload = prc.sort_write(item_list)
+    item_list = prc.get_item(file)  # Retrieve data frame of any available items from master
+    upload = prc.sort_write(item_list)  # sort, drop duplicates and add bins
     prc.export(upload, file_loc, file)
   
 def LVR():
@@ -17,20 +17,20 @@ def LVR():
   lvr = Operator()
   file_loc, files = lvr.file_list()
   if len(files) > 1:
-    order_list = lvr.combine(files)
+    order_list = lvr.combine(files)  # Concatenate all masterfiles
   else:
-    order_list = pd.read_csv(files, usecols=[1,2], header=None, index_col=None).values.tolist()
-  lot_list = lvr.lot_commit()
-  vol_df = lvr.lowvol_query(lot_list=lot_list)
-  drop_list = lvr.upcoming_orders(order_list, vol_df)
+    order_list = pd.read_csv(files, usecols=[1], header=None, index_col=None).values.tolist()
+  lot_list = lvr.get_lots()  # automatically retrieve lots from the garbage wall
+  vol_df = lvr.lowvol_query(lot_list=lot_list)  # query for low volume probes and lots
+  drop_list = lvr.upcoming_orders(order_list, vol_df)  # Compare query return to upcoming orders return items to drop
   tmp_df = vol_df[vol_df['Item'] is in drop_list].index
   upload = vol_df.drop(tmp_df, inplace=True)
-  lvr.export(upload, file_loc, file=1)
+  lvr.export(upload, file_loc, file=1)  # export final product
 
-  def main():
-    wind = Interface(PRC(), LVR())
-    wind.window()
+def main():
+  wind = Interface(PRC(), LVR())
+  wind.window()
  
 
-    if '__name__' == '__main__':
-      main()
+if '__name__' == '__main__':
+  main()
