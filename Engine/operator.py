@@ -49,6 +49,7 @@ class Operator(Bins, Working_folder, Query, Interface, Lot):
    def lowvsorder(low_df, order_list):
         items = low_df[0].values.tolist()
         drop_items = List(map(Lambda x: x if x in order_list, items))
+        return drop_items
                 
     def upcoming_orders(order_list, vol_df):
         import pandas as pd
