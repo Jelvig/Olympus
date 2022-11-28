@@ -1,3 +1,7 @@
+"""New idea, query c02-12 and 13 if one comes back with none, choose those bins.
+if not it'll choose to have the bins consecutive"""
+
+
 """final class needs df to be indexed,
 users must leave a new line"""
 
