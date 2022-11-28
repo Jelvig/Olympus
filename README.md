@@ -6,11 +6,9 @@ _Two Part program that either helps consolidate future CodeSet orders or remove 
 <!-- ABOUT THE PROJECT -->
 ## About The Program
 
-![Meme Generator in action](.sphinxdocs/_static/screencast-demo.gif)
-
-A simple meme generator written in python. This project was created as part of Udacity's Python Nanaodgree 
-program nd303. Includes a Flask based web interface and a cli interface. The cli interface will save the 
-the generated memes to disk.
+This program or tool was built to simply a repetitve task that the oligo team needs to perform.
+On average it takes about two hours to set up either process, this allows no manuel work and 
+accomplishes the same tasks in a fraction of the time.
 
 
 ### Built With
