@@ -1,11 +1,10 @@
-# Olympus
 
 <!-- PROJECT LOGO -->
-# Meme Generator
-_Simple meme image generator created for Udacity Nanaodegree program_.
+# Olympus
+_Two Part program that either helps consolidate future CodeSet orders or remove low-volume probes from inventory_.
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## About The Program
 
 ![Meme Generator in action](.sphinxdocs/_static/screencast-demo.gif)
 
