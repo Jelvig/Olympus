@@ -1,27 +1,10 @@
 class Lots():
-    def lot_commit(self):
-        import tkinter as tk
-        from math import ceil
-        root=tk.Tk()
-        textBox=tk.Text(root, height=10, width=20)
-        textBox.pack()
-        label = tk.Label(root, text=f'Enter Lot numbers').pack()
-        buttonCommit=tk.Button(root, height=1, width=10, text="Commit", 
-                            command=lambda: retrieve_input(textBox, root))
-        buttonCommit.pack()
-        tk.mainloop()
-        res = check_values(inputValue)
-        return res
-
-    def check_values(self, inputValue):
-        if all(len(lot) == 9 for lot in inputValue):
-            return inputValue
-        else:
-            print(f"{lot if len(lot) != 9 for lot in inputValue} lacks enough characters")
-            
-def retrieve_input(textBox, root):
-    """ add in a check to make sure the list is the correct length of bins,
-    and then check to make sure the bins are accurate, or call bin commit again."""
-    global inputValue
-    inputValue=textBox.get("1.0","end-2c").split('\n')
-    root.destroy()
+    """needs updates
+    This class is purely for gathering lots that are located
+    on the garabge wall, without manuelling entering them"""
+    def get_lots():
+        import pandas as pd
+        garbage_wall = pd.read_excel('path')
+        lots = garbage_wall[garbage_wall['removed?'] != False]
+        lots = lots["lot number?"].values.tolist()
+        return lots
