@@ -23,20 +23,21 @@ class Query:
     df = DataFrame(items, columns=['Item', 'Lot', 'Bin code', 'Qty', 'UL'])
     return df
   
-  def altlot_query(self, item):
+  def altlot_query(self, overlap):
     import pyodbc
     from pandas import DataFrame
-
+    
+    placeholder = '?'
+    placeholder = ', '.join(placeholder for unused in overlap)
     data = """
-    SELECT qy_oligos_containers.[Item No_], qy_oligos_containers.[Lot No_]
+    SELECT qy_oligos_containers.[Item No_], COUNT(qy_oligos_containers.[Item No_] AS Count)
     FROM (qy_oligos_containers)
-    WHERE (qy_oligos_containers.[Item No_] IN (%s))
-    ORDER BY qy_oligos_containers.[Lot No_];""" % item
+    WHERE (qy_oligos_containers.[Item No_] IN (%s) AND Count<2)
+    ORDER BY qy_oligos_containers.[Item No_];""" % placeholder
 
-    self.cursor.execute(data, item)
-    alt_lotlist = self.cursor.fetchall()
-   
-    return alt_lotlist
+    self.cursor.execute(data, overlap)
+    drop_list = [i[0] for i in self.cursor.fetchall()]
+    return drop_list
   
     def lowvol_query(self, lot_list):
       import pyodbc
@@ -45,7 +46,7 @@ class Query:
       placeholder = '?'
       placeholder = ', '.join(placeholder for unused in lot_list)
       data = """
-      SELECT qy_oligos_containers.[Item No_], qy_oligos_containers.[Lot No_], qy_oligos_containers.[Bin Code], '' AS toBinCode, qy_oligos_containers.lotQty AS Qty, 'UL' AS UOMC, qy_oligos_containers.type
+      SELECT qy_oligos_containers.[Item No_], qy_oligos_containers.[Lot No_], qy_oligos_containers.[Bin Code], qy_oligos_containers.lotQty AS Qty, 'UL' AS UOMC
       FROM ((qy_oligos_containers INNER JOIN [dbo_NanoString$Bin Content] ON qy_oligos_containers.[Bin Code] = [dbo_NanoString$Bin Content].[Bin Code]) INNER JOIN qy_rack_contents ON qy_oligos_containers.shelfCode = qy_rack_contents.shelfCode) INNER JOIN [dbo_NanoString$Item] ON [dbo_NanoString$Bin Content].[Item No_] = [dbo_NanoString$Item].No_
       WHERE ((qy_oligos_containers.type=2 OR 3) AND Qty < 40) OR (qy_oligos_containers.[Lot No_] IN (%s))
       ORDER BY qy_oligos_containers.[Lot No_];""" % placeholder
