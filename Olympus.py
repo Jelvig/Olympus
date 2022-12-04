@@ -23,8 +23,7 @@ def LVR():
   lot_list = lvr.get_lots()  # automatically retrieve lots from the garbage wall
   vol_df = lvr.lowvol_query(lot_list=lot_list)  # query for low volume probes and lots
   drop_list = lvr.upcoming_orders(order_list, vol_df)  # Compare query return to upcoming orders return items to drop
-  tmp_df = vol_df[vol_df['Item'] is in drop_list].index
-  upload = vol_df.drop(tmp_df, inplace=True)
+  upload = vol_df[~vol_df['Item'].isin(drop_list)]
   lvr.export(upload, file_loc, file=1)  # export final product
 
 def main():
