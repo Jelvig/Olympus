@@ -57,10 +57,5 @@ class Operator(Bins, Working_folder, Query, Interface, Lot):
         item_list = vol_df["Item"].values.tolist()
         overlap = [item for item in item_list if item in order_list]
         drop_list = []
-        for item in overlap:
-            res = query.altlot_query(item)
-            if len(res) > 1:
-                continue
-            else:
-                drop_list.append(item)
+        drop_list.append(query.altlot_query(overlap))
         return drop_list
