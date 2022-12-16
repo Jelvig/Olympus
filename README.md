@@ -30,12 +30,12 @@ The below steps will make sure all modules are available for interpretation.
 
 ### Prerequisites
 
-`Pandas` pip install pandas
-`Glob` pip install glob
-`tkinter` pip install tkinter
-`pyodbc` pip install pyodbc
-'Collections' pip install collections
-'Itertools' pip install itertools
+*`Pandas` pip install pandas
+*`Glob` pip install glob
+*`tkinter` pip install tkinter
+*`pyodbc` pip install pyodbc
+*`Collections` pip install collections
+*`Itertools` pip install itertools
 
 
 <!-- USAGE EXAMPLES -->
